@@ -1,0 +1,10 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+.arg_options {
+    padding: 5px;
+}
