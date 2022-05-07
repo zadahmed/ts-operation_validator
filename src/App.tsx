@@ -36,6 +36,15 @@ function OperationBuilder(props: {
   value: Operation;
   onChange: (value: Operation) => void;
 }): JSX.Element {
+
+
+  function parseEvent(event: string) {
+    let operation: Operation = { [event]: true };
+    props.onChange(operation);
+  }
+
+
+
   if (Object.keys(props.value)[0] === "Constant") {
     return (
       <div key={props.value[0]}>
@@ -50,33 +59,16 @@ function OperationBuilder(props: {
     return (
       <div key={props.value[0]}>
         <select>
-          <option value="true">True</option>
-          <option value="false">False</option>
+
+         { Object.entries(args_children).map(([key,value])=>{
+            return (
+                <option key={key} value={value[0]}>{Object.keys(value)[0]}</option>
+            );
+        })}
         </select>
         <button onClick={() => props.onChange({ delete: true })}>X</button>
       </div>
     );
-  }
-
-  // }
-  // if (props.value.delete === true) {
-  //   return (
-  //     <div key={props.value.toString()}>
-  //       <select >
-  //         <option onChange={() => props.onChange({constant: true})} value="constant">Constant</option>
-  //         <option value="argument">Argument</option>
-  //         <option value="and">AND</option>
-  //         <option value="or">OR</option>
-  //       </select>
-  //       <button>X</button>
-  //     </div>
-  //   );
-  // }
-  // else{
-
-  function parseEvent(event: string) {
-    let operation: Operation = { [event]: true };
-    props.onChange(operation);
   }
 
   return (
@@ -131,7 +123,6 @@ export default function App() {
   function pushArgsChildren(argsValue: number, value_: string, bool_: string) {
     setArgsValue((argsValue += 1));
     args_children.push({ [value_]: bool_ });
-    console.log(args_children);
   }
 
   function updateOperationsValue(operVal: Operation) {
@@ -149,6 +140,9 @@ export default function App() {
     } else if (Object.keys(operVal)[0].toString() === "or") {
       ops_Index = 3;
       setOperation(ops_children[ops_Index]);
+    }
+    else{
+      setOperation({});
     }
   }
 
