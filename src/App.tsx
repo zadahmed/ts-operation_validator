@@ -36,14 +36,10 @@ function OperationBuilder(props: {
   value: Operation;
   onChange: (value: Operation) => void;
 }): JSX.Element {
-
-
   function parseEvent(event: string) {
     let operation: Operation = { [event]: true };
     props.onChange(operation);
   }
-
-
 
   if (Object.keys(props.value)[0] === "Constant") {
     return (
@@ -59,14 +55,49 @@ function OperationBuilder(props: {
     return (
       <div key={props.value[0]}>
         <select>
-
-         { Object.entries(args_children).map(([key,value])=>{
+          {Object.entries(args_children).map(([key, value]) => {
             return (
-                <option key={key} value={value[0]}>{Object.keys(value)[0]}</option>
+              <option key={key} value={value[0]}>
+                {Object.keys(value)[0]}
+              </option>
             );
-        })}
+          })}
         </select>
         <button onClick={() => props.onChange({ delete: true })}>X</button>
+      </div>
+    );
+  } else if (Object.keys(props.value)[0] === "AND") {
+    return (
+      <div key={props.value.toString()}>
+        <select onChange={(event) => parseEvent(event.target.value)}>
+          <option disabled>Select..</option>
+          <option value="constant">Constant</option>
+          <option value="argument">Argument</option>
+          <option selected value="and">
+            AND
+          </option>
+          <option value="or">OR</option>
+        </select>
+        <div>
+          <select>
+            <option disabled>Select..</option>
+            <option value="constant">Constant</option>
+            <option value="argument">Argument</option>
+            <option selected value="and">
+              AND
+            </option>
+            <option value="or">OR</option>
+          </select>
+          <select>
+            <option disabled>Select..</option>
+            <option value="constant">Constant</option>
+            <option value="argument">Argument</option>
+            <option selected value="and">
+              AND
+            </option>
+            <option value="or">OR</option>
+          </select>
+        </div>
       </div>
     );
   }
@@ -140,8 +171,7 @@ export default function App() {
     } else if (Object.keys(operVal)[0].toString() === "or") {
       ops_Index = 3;
       setOperation(ops_children[ops_Index]);
-    }
-    else{
+    } else {
       setOperation({});
     }
   }
